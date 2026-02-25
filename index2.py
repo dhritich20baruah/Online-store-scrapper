@@ -7,6 +7,10 @@ import time
 import random
 import csv
 import re
+from supabase import create_client
+
+SUPABASE_URL = "https://vmtokeayizjbmvdxbcof.supabase.co"
+SUPABASE_KEY = "sb_publishable_j0gSHLWJIECGgCJXM-7i3Q_MF8WGHja"
 
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
@@ -41,6 +45,7 @@ wait.until(
     EC.presence_of_all_elements_located((By.CLASS_NAME, "product-card__body"))
 )
 
+products = []
 products = driver.find_elements(By.CLASS_NAME, "product-card__body")
 print(f"{len(products)} items found")
 
@@ -81,6 +86,8 @@ for product in products:
             "Description": "N/A"
             })
 
+        if products.index(product) == 8:
+            exit
     except Exception as e:
         print("Listing error: ", e)
 
@@ -92,10 +99,9 @@ for i, product in enumerate(all_products):
 
     # Description
     try:
-        desc = wait.until(
-            EC.presence_of_all_elements_located((By.ID, 'product-description-container')).text
-        )
-        product["Description"] = desc
+        Product_Description = driver.find_element(By.ID, 'product-description-container').text
+        product["Description"] = Product_Description
+        print(Product_Description)
     except:
         product["Description"] = "N/A"
 
