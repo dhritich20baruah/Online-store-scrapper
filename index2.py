@@ -12,6 +12,8 @@ from supabase import create_client
 SUPABASE_URL = "https://vmtokeayizjbmvdxbcof.supabase.co"
 SUPABASE_KEY = "sb_publishable_j0gSHLWJIECGgCJXM-7i3Q_MF8WGHja"
 
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 options.add_argument("--disable-blink-features=AutomationControlled")
@@ -86,8 +88,6 @@ for product in products:
             "Description": "N/A"
             })
 
-        if products.index(product) == 8:
-            exit
     except Exception as e:
         print("Listing error: ", e)
 
@@ -101,7 +101,6 @@ for i, product in enumerate(all_products):
     try:
         Product_Description = driver.find_element(By.ID, 'product-description-container').text
         product["Description"] = Product_Description
-        print(Product_Description)
     except:
         product["Description"] = "N/A"
 
